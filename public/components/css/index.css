@@ -1,0 +1,72 @@
+/* Reset some basic styles */
+body, h1, a {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+/* Set up the body */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+    color: #333;
+}
+
+/* Center the content */
+.container {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px 60px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the welcome message */
+.container h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Style the links */
+.container .links {
+    margin-top: 20px;
+}
+
+.container .links a {
+    display: inline-block;
+    margin: 10px 20px;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    background: #333;
+    color: white;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* Hover effect for links */
+.container .links a:hover {
+    background: #74ebd5;
+    color: #333;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px 30px;
+    }
+    
+    .container h1 {
+        font-size: 2em;
+    }
+    
+    .container .links a {
+        margin: 10px;
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+}

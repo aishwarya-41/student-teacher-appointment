@@ -1,0 +1,79 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f1f8e9; /* Light green background color */
+}
+
+.left-container {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+}
+
+h1 {
+  color: #333;
+  text-align: left; /* Align heading to the left */
+  margin: 20px 0; /* Add some margin to the left */
+  padding: 20px;
+}
+
+#logout {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  display: block;
+  margin: 20px;
+}
+
+#logout:hover {
+  background-color: #45a049;
+}
+
+#logout:active {
+  background-color: #3e8e41;
+}
+
+#appointments-list {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin:20px;
+  width: 60%;
+  max-width: 800px;
+}
+
+#appointments-list > div {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+#appointments-list > div:last-child {
+  border-bottom: none;
+}
+
+#appointments-list p {
+  margin: 5px 0;
+  color: #555;
+}
+
+button {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button:active {
+  background-color: #3e8e41;
+}

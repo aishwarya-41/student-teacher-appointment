@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <link rel="stylesheet" type="text/css" href="../components/css/register.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Register</h1>
+    <form id="register-form">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <input type="text" id="name" placeholder="Full Name" required>
+      <select id="role" required>
+        <option value="" disabled selected>Select Role</option>
+        <option value="student">Student</option>
+        <option value="teacher">Teacher</option>
+        <option value="admin">Admin</option>
+      </select>
+      <input type="text" id="grade" placeholder="Grade (1-12)" style="display:none">
+      <button type="submit">Register</button>
+    </form>
+    <p id="register-message"></p>
+  </div>
+
+  <script type="module">
+    import { auth, db } from "../js/firebaseConfig.js";
+    import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+    import { setDoc, doc } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
+
+    document.getElementById('role').addEventListener('change', (event) => {
+      const gradeField = document.getElementById('grade');
+      if (event.target.value === 'student') {
+        gradeField.style.display = 'block';
+      } else {
+        gradeField.style.display = 'none';
+      }
+    });
+
+    document.getElementById('register-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const name = document.getElementById('name').value;
+      const role = document.getElementById('role').value;
+      const grade = document.getElementById('grade').value;
+      
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        await setDoc(doc(db, 'users', user.uid), {
+          email: user.email,
+          name,
+          role,
+          grade: role === 'student' ? grade : null,
+        });
+        document.getElementById('register-message').textContent = "Registration successful!";
+      } catch (error) {
+        document.getElementById('register-message').textContent = `Error: ${error.message}`;
+      }
+    });
+  </script>
+</body>
+</html>

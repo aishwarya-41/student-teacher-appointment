@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Dashboard</title>
+  <link rel="stylesheet" type="text/css" href="css/teacher.css">
+
+  <!-- Import Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+    import { getFirestore, collection, query, where, getDocs, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDcRXCUIRuODy_NK9LHRcu9HtiQcCuCmlI",
+      authDomain: "student-teacher-appointm-d130e.firebaseapp.com",
+      projectId: "student-teacher-appointm-d130e",
+      storageBucket: "student-teacher-appointm-d130e.appspot.com",
+      messagingSenderId: "138490773111",
+      appId: "1:138490773111:web:5484c85e5f1180d21f5072",
+      measurementId: "G-V6T3RVCPGX"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let loggedInTeacherName = ""; // Variable to store logged-in teacher's name
+
+    // Function to fetch appointments for the current teacher
+    async function fetchAppointments() {
+      try {
+        const q = query(collection(db, 'appointments'), where('teacherName', '==', loggedInTeacherName));
+        const querySnapshot = await getDocs(q);
+        const appointmentsList = document.getElementById('appointments-list');
+        appointmentsList.innerHTML = ""; // Clear previous appointments
+
+        querySnapshot.forEach((doc) => {
+          const appointmentData = doc.data();
+          const appointmentId = doc.id; // This is the appointmentId (document ID)
+          
+          // Render appointment details
+          displayAppointment(appointmentId, appointmentData); // Example function to display appointment in UI
+        });
+      } catch (error) {
+        console.error('Error fetching appointments:', error.message);
+      }
+    }
+
+    // Example function to display appointments in the UI (replace with your UI rendering logic)
+    function displayAppointment(appointmentId, appointmentData) {
+  const appointmentsList = document.getElementById('appointments-list');
+  const appointmentElement = document.createElement('div');
+  
+  // Convert timestamp to readable date
+  const appointmentTime = appointmentData.appointmentTime instanceof Date
+    ? appointmentData.appointmentTime
+    : (appointmentData.appointmentTime?.toDate() || new Date());
+
+  appointmentElement.innerHTML = `
+    <p>Appointment Time: ${appointmentTime ? new Date(appointmentTime).toLocaleString() : 'N/A'}</p>
+    <p>Student Name: ${appointmentData.studentName || 'N/A'}</p>
+    <p>Status: ${appointmentData.status || 'N/A'}</p>
+    <p>Message:${appointmentData.message || 'N/A'}</p>
+    ${appointmentData.status === 'pending' ? `
+      <button onclick="approveAppointment('${appointmentId}')">Approve</button>
+      <button onclick="rejectAppointment('${appointmentId}')">Reject</button>
+    ` : ''}
+  `;
+  appointmentsList.appendChild(appointmentElement);
+}
+
+    // Function to approve appointment by appointmentId
+    async function approveAppointment(appointmentId) {
+      try {
+        const appointmentRef = doc(db, 'appointments', appointmentId);
+        await updateDoc(appointmentRef, {
+          status: 'approved'
+        });
+        console.log(`Appointment ${appointmentId} approved.`);
+        fetchAppointments(); // Refresh appointments list
+      } catch (error) {
+        console.error('Error approving appointment:', error.message);
+      }
+    }
+
+    // Function to reject appointment by appointmentId
+    async function rejectAppointment(appointmentId) {
+      try {
+        const appointmentRef = doc(db, 'appointments', appointmentId);
+        await updateDoc(appointmentRef, {
+          status: 'rejected'
+        });
+        console.log(`Appointment ${appointmentId} rejected.`);
+        fetchAppointments(); // Refresh appointments list
+      } catch (error) {
+        console.error('Error rejecting appointment:', error.message);
+      }
+    }
+
+    // Function to log out
+    function logout() {
+      signOut(auth).then(() => {
+        console.log('User signed out.');
+        window.location.href = 'login.html'; // Redirect to login page
+      }).catch((error) => {
+        console.error('Error signing out:', error.message);
+      });
+    }
+
+    // Make functions globally accessible
+    window.approveAppointment = approveAppointment;
+    window.rejectAppointment = rejectAppointment;
+    window.logout = logout;
+
+    // Check authentication state and get logged-in user details
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in
+        const userId = user.uid;
+        // Fetch user details from Firestore
+        const userRef = doc(db, 'users', userId);
+        getDoc(userRef).then((userDoc) => {
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            if (userData.role === 'teacher') {
+              loggedInTeacherName = userData.name;
+              fetchAppointments(); // Fetch appointments for the logged-in teacher
+            } else {
+              console.error('User is not a teacher.');
+            }
+          } else {
+            console.error('User document not found.');
+          }
+        }).catch((error) => {
+          console.error('Error fetching user document:', error.message);
+        });
+      } else {
+        // User is signed out
+        console.log('User is signed out.');
+        // Redirect or handle sign-out state as needed (e.g., show a login button)
+        window.location.href = 'login.html';
+      }
+    });
+  </script>
+</head>
+<body>
+  <h1>Teacher Dashboard</h1>
+
+  <div id="appointments-list">
+    <!-- Appointments will be dynamically listed here -->
+  </div>
+  <button id="logout" onclick="logout()">Logout</button>
+ 
+</body>
+</html>

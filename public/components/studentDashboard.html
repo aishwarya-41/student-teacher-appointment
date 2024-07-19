@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard</title>
+  <link rel="stylesheet" type="text/css" href="css/student.css">
+</head>
+<body>
+  <h1>Student Dashboard</h1>
+  <div class="container">
+    <h2>Book Appointment</h2>
+    <form id="appointment-form">
+      <input type="text" id="teacherName" placeholder="Teacher's Name" required>
+      <textarea id="message" placeholder="Message" required></textarea>
+      <input type="date" id="date" required>
+      <input type="time" id="time" required>
+      <button type="submit">Book Appointment</button>
+      <button type="button" id="logout-button">Logout</button>
+    </form>
+    <p id="appointment-message"></p>
+  </div>
+
+  <script type="module">
+    import { auth, db } from "../js/firebaseConfig.js";
+    import { getDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
+    import { signOut } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+
+    const appointmentForm = document.getElementById('appointment-form');
+    const logoutButton = document.getElementById('logout-button');
+    const appointmentMessage = document.getElementById('appointment-message');
+
+    appointmentForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const teacherName = document.getElementById('teacherName').value;
+      const message = document.getElementById('message').value;
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('time').value;
+
+      try {
+        const user = auth.currentUser;
+        if (!user) throw new Error('User not authenticated.');
+
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        if (!userDoc.exists()) throw new Error('User data not found.');
+
+        const userData = userDoc.data();
+        const studentName = userData.name;
+        const studentGrade = userData.grade || "";
+
+        await setDoc(doc(db, 'appointments', `${user.uid}-${Date.now()}`), {
+          studentName,
+          studentGrade,
+          teacherName,
+          message,
+          date,
+          time,
+          status: "pending" // Optionally add status field
+        });
+
+        appointmentMessage.textContent = "Appointment booked successfully!";
+        appointmentForm.reset();
+      } catch (error) {
+        appointmentMessage.textContent = `Error: ${error.message}`;
+      }
+    });
+
+    // Function to handle logout
+    async function logout() {
+      try {
+        await signOut(auth);
+        // Redirect to login page or show a message
+        window.location.href = "login.html"; // Replace with the path to your login page
+      } catch (error) {
+        appointmentMessage.textContent = `Error: ${error.message}`;
+      }
+    }
+
+    // Add event listener to logout button
+    logoutButton.addEventListener('click', logout);
+  </script>
+</body>
+</html>
