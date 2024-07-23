@@ -1,11 +1,11 @@
-/* Reset some basic styles */
+
 body, h1, a {
     margin: 0;
     padding: 0;
     text-decoration: none;
 }
 
-/* Set up the body */
+
 body {
     display: flex;
     justify-content: center;
@@ -16,7 +16,7 @@ body {
     color: #333;
 }
 
-/* Center the content */
+
 .container {
     text-align: center;
     background: rgba(255, 255, 255, 0.9);
@@ -25,14 +25,14 @@ body {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Style the welcome message */
+
 .container h1 {
     font-size: 2.5em;
     margin-bottom: 20px;
     color: #333;
 }
 
-/* Style the links */
+
 .container .links {
     margin-top: 20px;
 }
@@ -48,13 +48,22 @@ body {
     transition: background 0.3s, color 0.3s;
 }
 
-/* Hover effect for links */
+
 .container .links a:hover {
     background: #74ebd5;
     color: #333;
 }
 
-/* Responsive design */
+
+.appointment-image {
+    margin-top: 20px;
+    max-width: 40%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
 @media (max-width: 600px) {
     .container {
         padding: 20px 30px;

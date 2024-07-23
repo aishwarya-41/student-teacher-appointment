@@ -7,8 +7,8 @@
   <link rel="stylesheet" type="text/css" href="css/student.css">
 </head>
 <body>
-  <h1>Student Dashboard</h1>
   <div class="container">
+    <h1>Student Dashboard</h1>
     <h2>Book Appointment</h2>
     <form id="appointment-form">
       <input type="text" id="teacherName" placeholder="Teacher's Name" required>
@@ -16,8 +16,8 @@
       <input type="date" id="date" required>
       <input type="time" id="time" required>
       <button type="submit">Book Appointment</button>
-      <button type="button" id="logout-button">Logout</button>
     </form>
+    <button type="button" id="logout-button">Logout</button>
     <p id="appointment-message"></p>
   </div>
 
@@ -55,7 +55,7 @@
           message,
           date,
           time,
-          status: "pending" // Optionally add status field
+          status: "pending"
         });
 
         appointmentMessage.textContent = "Appointment booked successfully!";
@@ -65,18 +65,15 @@
       }
     });
 
-    // Function to handle logout
     async function logout() {
       try {
         await signOut(auth);
-        // Redirect to login page or show a message
-        window.location.href = "login.html"; // Replace with the path to your login page
+        window.location.href = "login.html";
       } catch (error) {
         appointmentMessage.textContent = `Error: ${error.message}`;
       }
     }
 
-    // Add event listener to logout button
     logoutButton.addEventListener('click', logout);
   </script>
 </body>

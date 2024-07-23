@@ -6,7 +6,6 @@
   <title>Login</title>
   <link rel="stylesheet" type="text/css" href="../components/css/login.css">
   
-  <!-- Firebase SDKs -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
     import { getAuth } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
@@ -26,8 +25,8 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    window.auth = auth; // Make it accessible globally for other scripts
-    window.db = db;     // Make it accessible globally for other scripts
+    window.auth = auth; 
+    window.db = db;    
   </script>
 </head>
 <body>
@@ -54,19 +53,24 @@
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Fetch user role from Firestore
         const userDoc = await getDoc(doc(db, 'users', user.uid));
         if (userDoc.exists()) {
           const userData = userDoc.data();
           const userRole = userData.role;
+          const userApproved = userData.approved;
 
-          // Redirect based on role
-          if (userRole === "student") {
-            window.location.href = "studentDashboard.html";
-          } else if (userRole === "teacher") {
-            window.location.href = "teacherDashboard.html";
-          } else if (userRole === "admin") {
-            window.location.href = "adminDashboard.html";
+          if (userRole === "student" && !userApproved) {
+            await auth.signOut();
+            document.getElementById('login-message').textContent = "Your account is not yet approved.";
+          } else {
+     
+            if (userRole === "student") {
+              window.location.href = "studentDashboard.html";
+            } else if (userRole === "teacher") {
+              window.location.href = "teacherDashboard.html";
+            } else if (userRole === "admin") {
+              window.location.href = "adminDashboard.html";
+            }
           }
         } else {
           document.getElementById('login-message').textContent = "User role not found.";

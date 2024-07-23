@@ -1,4 +1,4 @@
-/* Reset some basic styles */
+
 body, h1, input, button, p {
     margin: 0;
     padding: 0;
@@ -6,7 +6,7 @@ body, h1, input, button, p {
     box-sizing: border-box;
 }
 
-/* Set up the body */
+
 body {
     display: flex;
     justify-content: center;
@@ -17,7 +17,7 @@ body {
     color: #333;
 }
 
-/* Center the content */
+
 .container {
     text-align: center;
     background: rgba(255, 255, 255, 0.95);
@@ -26,14 +26,14 @@ body {
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
 }
 
-/* Style the header */
+
 .container h1 {
     font-size: 2.5em;
     margin-bottom: 20px;
     color: #5A5A5A;
 }
 
-/* Style the login form */
+
 #login-form {
     display: flex;
     flex-direction: column;
@@ -68,14 +68,14 @@ body {
     color: #333;
 }
 
-/* Style the message */
+
 #login-message {
     margin-top: 30px;
     font-size: 1.1em;
     color: #5A5A5A;
 }
 
-/* Responsive design */
+
 @media (max-width: 600px) {
     .container {
         padding: 30px 40px;

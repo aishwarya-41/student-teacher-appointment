@@ -1,6 +1,6 @@
-// auth.js
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Login form handling
+
   const loginForm = document.getElementById('login-form');
   if (loginForm) {
     loginForm.addEventListener('submit', (e) => {
@@ -12,13 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
       auth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
           console.log('User logged in:', userCredential.user);
-          // Fetch user role from Firestore
+
           return db.collection('users').doc(userCredential.user.uid).get();
         })
         .then((doc) => {
           if (doc.exists) {
             const userRole = doc.data().role;
-            // Redirect based on user role
+   
             if (userRole === 'student') {
               window.location.href = 'studentDashboard.html';
             } else if (userRole === 'teacher') {
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Register form handling
+
   const registerForm = document.getElementById('register-form');
   if (registerForm) {
     registerForm.addEventListener('submit', (e) => {
@@ -51,12 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
           console.log('User registered:', userCredential.user);
           return db.collection('users').doc(userCredential.user.uid).set({
             email: email,
-            role: 'student' // Default role
+            role: 'student' 
           });
         })
         .then(() => {
           console.log('User data saved to Firestore');
-          // Redirect to student dashboard
           window.location.href = 'studentDashboard.html';
         })
         .catch((error) => {

@@ -55,6 +55,7 @@
           name,
           role,
           grade: role === 'student' ? grade : null,
+          approved: role === 'student' ? false : true 
         });
         document.getElementById('register-message').textContent = "Registration successful!";
       } catch (error) {

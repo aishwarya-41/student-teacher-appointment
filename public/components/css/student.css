@@ -1,26 +1,24 @@
-/* Reset some basic styles */
- h1, h2, input, textarea, button, p {
-    margin: 20px;
-    padding: 20px;
-    text-decoration: none;
+h1, h2, input, textarea, button, p {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
-/* Set up the body */
+
 body {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     height: 100vh;
     font-family: 'Arial', sans-serif;
     background: linear-gradient(135deg, #3292e0, #ceb0f3);
     color: #333;
-    padding-left: 50px;
+    padding: 20px;
 }
 
-/* Center the content */
+
 .container {
-    text-align: left;
+    text-align: center;
     background: rgba(255, 255, 255, 0.9);
     padding: 40px 60px;
     border-radius: 10px;
@@ -29,24 +27,25 @@ body {
     width: 100%;
 }
 
-/* Style the main header */
+
 h1 {
-    font-size: 2.5em;
+    font-size: 2em;
     margin-bottom: 20px;
     color: #3E3E3E;
 }
 
 /* Style the section header */
 h2 {
-    font-size: 2em;
+    font-size: 1.5em;
     margin-bottom: 20px;
     color: #4E4E4E;
 }
 
-/* Style the form */
+
 #appointment-form {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 #appointment-form input, 
@@ -64,8 +63,8 @@ h2 {
     resize: none;
 }
 
-#appointment-form button {
-    margin-top: 20px;
+ button {
+    margin-top: 10px;
     padding: 15px 30px;
     font-size: 1.2em;
     border-radius: 5px;
@@ -76,24 +75,19 @@ h2 {
     transition: background 0.3s, color 0.3s;
 }
 
-#appointment-form button:hover {
+button:hover {
     background: #357ABD;
     color: #FFF;
 }
 
-/* Style the message */
 #appointment-message {
     margin-top: 20px;
     font-size: 1.1em;
     color: #3E3E3E;
 }
 
-/* Responsive design */
-@media (max-width: 600px) {
-    body {
-        padding-left: 10px;
-    }
 
+@media (max-width: 600px) {
     .container {
         padding: 30px 20px;
     }
@@ -109,4 +103,3 @@ h2 {
         font-size: 1em;
     }
 }
-
