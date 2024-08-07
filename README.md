@@ -29,3 +29,5 @@ To set up the project locally:
    ```bash
    git clone https://github.com/aishwarya-41/student-teacher-appointment.git
    cd student-teacher-appointment
+
+To run the code, open the folder in visual studio code, open the index.html file and right click to Open With Live Server.
