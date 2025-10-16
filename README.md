@@ -46,15 +46,15 @@ Screenshots
 - Version Control: Git, GitHub
 
 # Setup Instructions
-- Clone the Repository:
-bash
-git clone https://github.com/aishwarya-41/student-teacher-appointment.git
+- Clone the Repository: <br>
+bash <br>
+git clone https://github.com/aishwarya-41/student-teacher-appointment.git <br>
 cd student-teacher-appointment
 
-- Project Setup:
-Open the folder in Visual Studio Code.
-Open index.html and right-click to Open with Live Server.
-Configure Firebase credentials in the project files as needed.
+- Project Setup: <br>
+Open the folder in Visual Studio Code. <br>
+Open index.html and right-click to Open with Live Server. <br>
+Configure Firebase credentials in the project files as needed. 
 
 # Testing Summary
 - Authentication: Verified secure login for students, teachers, and admin.
